@@ -1,0 +1,11 @@
+{
+  "name": "tarea_9",
+  "version": "1.0.0",
+  "description": "Creación de una API con Express y MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sergio Vélez Díaz",
+  "license": "ISC"
+}
