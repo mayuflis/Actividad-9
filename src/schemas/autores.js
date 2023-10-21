@@ -18,6 +18,29 @@ const idAutor = zod
     invalid_type_error: "idAutor must be a positive number",
   });
 
+const bodyAutor = zod.object({
+  nombre: zod.string({
+    required_error: "Name is required",
+    invalid_type_error: "Name must be a string",
+  }),
+  email: zod
+    .string({
+      required_error: "Email is required",
+      invalid_type_error: "Email must be a string",
+    })
+    .email({
+      message: "Invalid email address",
+    }),
+  imagen: zod
+    .string({
+      required_error: "Imagen is required",
+      invalid_type_error: "Imagen must be a string",
+    })
+    .url({ message: "Invalid url" })
+    .startsWith("https://", { message: "Must provide secure URL" })
+    .endsWith(".online", { message: "Only .online domains allowed" }),
+});
+
 /**
  * Función que valida el identificador del autor (idAutor) utilizando el esquema de validación definido en "idAutor".
  *
@@ -28,4 +51,9 @@ function validatIdAutor(number) {
   console.log(number);
   return idAutor.parseAsync(number);
 }
-module.exports = { validatIdAutor };
+
+function validateBodyAutor(object) {
+  return bodyAutor.parseAsync(object);
+}
+
+module.exports = { validatIdAutor, validateBodyAutor };

@@ -1,4 +1,8 @@
-const { selectGetAllAutores, selectAutoresById } = require("../model/autores");
+const {
+  selectGetAllAutores,
+  selectAutoresById,
+  insertAutores,
+} = require("../model/autores");
 
 const validator = require("../schemas/autores");
 
@@ -23,4 +27,15 @@ const getAutorById = async (req, res) => {
   }
 };
 
-module.exports = { getAutores, getAutorById };
+const createAutor = async (req, res) => {
+  try {
+    await validator.validateBodyAutor(req.body);
+    const [result] = await insertAutores(req.body);
+    const [autor] = await selectAutoresById(result.insertId);
+    res.status(200).json(autor[0]);
+  } catch (error) {
+    res.status(422).json({ fatal: JSON.parse(error.message) });
+  }
+};
+
+module.exports = { getAutores, getAutorById, createAutor };
