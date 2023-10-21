@@ -14,6 +14,9 @@ const { error } = require("node:console");
 
 require("dotenv").config();
 
+//Configuracuón de la base de datos
+require("./src/config/db");
+
 const PORT = process.env.PORT ?? 3000;
 
 //Levanto el servidor,app se encargará de gestionar las peticiones y respuestas del servidor
