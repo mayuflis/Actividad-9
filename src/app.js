@@ -4,21 +4,34 @@
  * @requires express
  * @requires cors
  */
-// Crea una instancia de la aplicación Express
+
 const express = require("express");
+const cors = require("cors");
+const dayjs = require("dayjs");
+const fs = require("node:fs/promises");
+//Instancia de la aplicación Express
+const app = express();
 
 // Habilita el análisis de datos JSON en las solicitudes
 app.use(express.json());
 
 // Habilita el middleware de CORS para permitir solicitudes desde diferentes orígenes
-const cors = require("cors");
-
-const app = express();
-
-app.use(express.json());
 app.use(cors());
 
-//RUTAS
+//Registro de todas la peticiones entrantes al servidor
+app.use(async (req, res, next) => {
+  try {
+    const data = `[${dayjs().format("DD-MM-YYYY HH:mm:ss")}] Método: ${
+      req.method
+    }  Url: ${req.url}\n`;
+
+    await fs.appendFile("./main.log", data);
+  } catch (error) {
+    console.log(error);
+  }
+  next();
+});
+//Rutas
 app.use("/api", require("./routes/api"));
 
 module.exports = app;
