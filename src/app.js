@@ -34,4 +34,8 @@ app.use(async (req, res, next) => {
 //Rutas
 app.use("/api", require("./routes/api"));
 
+app.use((req, res) => {
+  res.status(404).send("<h1>NOT FOUND</h1>");
+});
+
 module.exports = app;

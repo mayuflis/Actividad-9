@@ -1,3 +1,13 @@
+/**
+ * Controlador que maneja las operaciones relacionadas con posts en una aplicación.
+ *
+ * @requires selectGetPosts
+ * @requires selectPostsById
+ * @requires insertPosts
+ * @requires updatePostsById
+ * @requires deletePostsById
+ * @requires validator
+ */
 const {
   selectGetPosts,
   selectPostsById,
@@ -5,8 +15,15 @@ const {
   updatePostsById,
   deletePostsById,
 } = require("../model/posts");
+
 const validator = require("../schemas/posts");
 
+/**
+ * Obtiene todos los posts y responde con un array de posts.
+ *
+ * @param {Object} req - El objeto de solicitud HTTP.
+ * @param {Object} res - El objeto de respuesta HTTP.
+ */
 const getAllPosts = async (req, res) => {
   try {
     const [result] = await selectGetPosts();
@@ -16,6 +33,12 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+/**
+ * Obtiene un post por su ID y responde con los detalles del post.
+ *
+ * @param {Object} req - El objeto de solicitud HTTP que contiene el parámetro "postsId" en la ruta.
+ * @param {Object} res - El objeto de respuesta HTTP.
+ */
 const getPostById = async (req, res) => {
   try {
     const { postsId } = req.params;
@@ -28,6 +51,12 @@ const getPostById = async (req, res) => {
   }
 };
 
+/**
+ * Crea un nuevo post y responde con los detalles del post creado.
+ *
+ * @param {Object} req - El objeto de solicitud HTTP que contiene los datos del post en el cuerpo.
+ * @param {Object} res - El objeto de respuesta HTTP.
+ */
 const createPost = async (req, res) => {
   try {
     try {
@@ -43,6 +72,12 @@ const createPost = async (req, res) => {
   }
 };
 
+/**
+ * Actualiza los detalles de un post por su ID y responde con el resultado de la actualización.
+ *
+ * @param {Object} req - El objeto de solicitud HTTP que contiene el parámetro "postsId" en la ruta y los datos del post a actualizar en el cuerpo.
+ * @param {Object} res - El objeto de respuesta HTTP.
+ */
 const updatePost = async (req, res) => {
   try {
     console.log(req.body);
@@ -60,6 +95,12 @@ const updatePost = async (req, res) => {
   }
 };
 
+/**
+ * Elimina un post por su ID y responde con el resultado de la eliminación.
+ *
+ * @param {Object} req - El objeto de solicitud HTTP que contiene el parámetro "postsId" en la ruta.
+ * @param {Object} res - El objeto de respuesta HTTP.
+ */
 const deletePost = async (req, res) => {
   try {
     const { postsId } = req.params;

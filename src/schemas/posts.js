@@ -54,7 +54,6 @@ const bodyPosts = zod.object({
 });
 
 function validatIdPosts(number) {
-  console.log(number);
   return idAutor.parseAsync(number);
 }
 
