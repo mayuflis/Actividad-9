@@ -31,7 +31,7 @@ const bodyPosts = zod.object({
       invalid_type_error: "Descripción must be a string",
     })
     .max(65535, { message: "Must be 65535 fewer characters long" }),
-  fecha_creacion: zod.string().datetime(),
+  fecha_creacion: zod.coerce.date(),
   categoria: zod.enum([
     "Informativo",
     "Educativo",
@@ -58,8 +58,15 @@ function validatIdPosts(number) {
   return idAutor.parseAsync(number);
 }
 
-//TODO:Realizar la funcion para validar el schema del bodyPosts
+function validateBodyPosts(object) {
+  return bodyPosts.parseAsync(object);
+}
 
+function validatePartialBody(object) {
+  return bodyPosts.partial().parseAsync(object);
+}
 module.exports = {
   validatIdPosts,
+  validateBodyPosts,
+  validatePartialBody,
 };
