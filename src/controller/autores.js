@@ -2,6 +2,8 @@ const {
   selectGetAllAutores,
   selectAutoresById,
   insertAutores,
+  updateAutorById,
+  deleteAutorById,
 } = require("../model/autores");
 
 const validator = require("../schemas/autores");
@@ -38,4 +40,35 @@ const createAutor = async (req, res) => {
   }
 };
 
-module.exports = { getAutores, getAutorById, createAutor };
+const updateAutor = async (req, res) => {
+  try {
+    const { idAutor } = req.params;
+    const id = parseInt(idAutor);
+    await validator.validatIdAutor(id);
+    await validator.validatPartialAutor(req.body);
+    const [result] = await updateAutorById(id, req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(422).json({ fatal: JSON.parse(error.message) });
+  }
+};
+
+const deleteAutor = async (req, res) => {
+  try {
+    const { idAutor } = req.params;
+    const id = parseInt(idAutor);
+    await validator.validatIdAutor(id);
+    const [result] = await deleteAutorById(id);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(422).json({ fatal: JSON.parse(error.message) });
+  }
+};
+
+module.exports = {
+  getAutores,
+  getAutorById,
+  createAutor,
+  updateAutor,
+  deleteAutor,
+};

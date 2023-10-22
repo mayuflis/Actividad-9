@@ -56,4 +56,8 @@ function validateBodyAutor(object) {
   return bodyAutor.parseAsync(object);
 }
 
-module.exports = { validatIdAutor, validateBodyAutor };
+function validatPartialAutor(object) {
+  return bodyAutor.partial().parseAsync(object);
+}
+
+module.exports = { validatIdAutor, validateBodyAutor, validatPartialAutor };
