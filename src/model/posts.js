@@ -3,7 +3,10 @@ const selectGetPosts = () => {
 };
 
 const selectPostsById = (postsId) => {
-  return db.query("select * from posts where idposts= ?", [postsId]);
+  return db.query(
+    "select * from posts as p join autores as a on a.idautores=p.autores_idautores where p.idposts= ?",
+    [postsId]
+  );
 };
 
 const insertPosts = ({
