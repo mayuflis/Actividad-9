@@ -1,11 +1,11 @@
+const zod = require("zod");
 /**
  * Define un esquema de validación utilizando la biblioteca "zod" para el identificador del autor (idAutor).
  *
  * @requires zod
+ *
+ El esquema de validación incluye las restricciones necesarias, como requerimiento, tipo válido (número), tipo entero y positividad.
  */
-const zod = require("zod");
-
-// El esquema de validación incluye las restricciones necesarias, como requerimiento, tipo válido (número), tipo entero y positividad.
 const idAutor = zod
   .number({
     required_error: "idAutor is required",
@@ -18,6 +18,13 @@ const idAutor = zod
     invalid_type_error: "idAutor must be a positive number",
   });
 
+/**
+ * Define un esquema de validación utilizando la biblioteca "zod" para los datos de un autor (bodyAutor).
+ *
+ * El esquema de validación incluye restricciones para el nombre, email e imagen del autor, como requerimiento, tipo válido, formato de email, formato de URL, entre otros.
+ *
+ * @requires zod
+ */
 const bodyAutor = zod.object({
   nombre: zod.string({
     required_error: "Name is required",
@@ -52,10 +59,22 @@ function validatIdAutor(number) {
   return idAutor.parseAsync(number);
 }
 
+/**
+ * Función que valida un objeto que contiene los datos de un autor utilizando el esquema de validación "bodyAutor".
+ *
+ * @param {Object} object - El objeto que contiene los datos del autor a validar.
+ * @return {Promise<Object>} - Una promesa que resuelve en un objeto que representa los datos del autor validados si la validación es exitosa, o rechaza con un error si la validación falla.
+ */
 function validateBodyAutor(object) {
   return bodyAutor.parseAsync(object);
 }
 
+/**
+ * Función que valida parcialmente un objeto que contiene los datos de un autor utilizando el esquema de validación "bodyAutor" en modo parcial.
+ *
+ * @param {Object} object - El objeto que contiene los datos del autor a validar parcialmente.
+ * @return {Promise<Object>} - Una promesa que resuelve en un objeto que representa los datos del autor validados parcialmente si la validación es exitosa, o rechaza con un error si la validación falla.
+ */
 function validatPartialAutor(object) {
   return bodyAutor.partial().parseAsync(object);
 }
