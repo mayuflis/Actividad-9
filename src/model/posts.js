@@ -12,7 +12,9 @@
  */
 
 const selectGetPosts = () => {
-  return db.query("select * from posts");
+  return db.query(
+    "select * from posts as p join autores as a on a.idautores=p.autores_idautores"
+  );
 };
 
 /**

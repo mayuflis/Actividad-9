@@ -55,7 +55,6 @@ const bodyAutor = zod.object({
  * @return {Promise<number>} - Una promesa que resuelve en el identificador del autor validado si la validación es exitosa, o rechaza con un error si la validación falla.
  */
 function validatIdAutor(number) {
-  console.log(number);
   return idAutor.parseAsync(number);
 }
 

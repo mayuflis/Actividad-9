@@ -80,7 +80,6 @@ const createPost = async (req, res) => {
  */
 const updatePost = async (req, res) => {
   try {
-    console.log(req.body);
     try {
       await validator.validatePartialBody(req.body);
     } catch (error) {
