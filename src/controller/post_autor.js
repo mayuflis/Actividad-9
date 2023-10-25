@@ -21,13 +21,13 @@ const getAllPostsAutor = async (req, res) => {
     try {
       await validator.validatIdPosts(id);
     } catch (error) {
-      res.status(422).json({ error: JSON.parse(error.message) });
+      res.status(400).json({ error: JSON.parse(error.message) });
     }
     // Obtiene todos los posts del autor y responde con el resultado.
     const [result] = await getAllPosts(id);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 

@@ -1,5 +1,9 @@
 #Node
 /node_modules
-.env
-#Variables
 
+
+#Variables de entorno
+.env
+
+#Archivos log
+.log

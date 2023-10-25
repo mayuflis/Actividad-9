@@ -29,7 +29,7 @@ const getAllPosts = async (req, res) => {
     const [result] = await selectGetPosts();
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ message: JSON.parse(error.message) });
+    res.status(400).json({ message: JSON.parse(error.message) });
   }
 };
 
@@ -43,11 +43,16 @@ const getPostById = async (req, res) => {
   try {
     const { postsId } = req.params;
     const id = parseInt(postsId);
-    await validator.validatIdPosts(id);
+    try {
+      await validator.validatIdPosts(id);
+    } catch (error) {
+      res.status(400).json({ error: JSON.parse(error.message) });
+    }
+
     const [result] = await selectPostsById(id);
     res.status(201).json(result[0]);
   } catch (error) {
-    res.status(422).json({ message: JSON.parse(error.message) });
+    res.status(400).json({ message: JSON.parse(error.message) });
   }
 };
 
@@ -60,15 +65,16 @@ const getPostById = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     try {
+      // Valida el body de los posts utilizando el validador "validateBodyPosts" definido en "validator"
       await validator.validateBodyPosts(req.body);
     } catch (error) {
-      res.status(422).json({ error: JSON.parse(error.message) });
+      res.status(400).json({ error: JSON.parse(error.message) });
     }
     const [result] = await insertPosts(req.body);
     const [post] = await selectPostsById(result.insertId);
     res.status(200).json(post);
   } catch (error) {
-    res.status(422).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -80,12 +86,15 @@ const createPost = async (req, res) => {
  */
 const updatePost = async (req, res) => {
   try {
+    const { postsId } = req.params;
     try {
+      // Valida el body de los posts utilizando el validador "validateBodyPosts" definido en "validator"
       await validator.validatePartialBody(req.body);
+      // Valida el id de los posts utilizando el validador "validateIdPosts" definido en "validator"
+      await validator.validatIdPosts(postsId);
     } catch (error) {
       res.status(422).json({ error: JSON.parse(error.message) });
     }
-    const { postsId } = req.params;
 
     const [result] = await updatePostsById(parseInt(postsId), req.body);
     res.status(200).json(result);
@@ -107,12 +116,12 @@ const deletePost = async (req, res) => {
     try {
       await validator.validatIdPosts(id);
     } catch (error) {
-      res.status(422).json({ error: JSON.parse(error.message) });
+      res.status(400).json({ error: JSON.parse(error.message) });
     }
     const [result] = await deletePostsById(id);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 

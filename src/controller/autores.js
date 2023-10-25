@@ -29,7 +29,7 @@ const getAutores = async (req, res) => {
     const [result] = await selectGetAllAutores();
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ fatal: error.message });
+    res.status(400).json({ fatal: error.message });
   }
 };
 
@@ -42,12 +42,16 @@ const getAutores = async (req, res) => {
 const getAutorById = async (req, res) => {
   try {
     const { idAutor } = req.params;
-    console.log(idAutor);
-    await validator.validatIdAutor(parseInt(idAutor));
+    try {
+      //Validación del id
+      await validator.validatIdAutor(parseInt(idAutor));
+    } catch (error) {
+      res.status(400).json({ error: JSON.parse(error.message) });
+    }
     const [result] = await selectAutoresById(idAutor);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ fatal: error.message });
+    res.status(400).json({ fatal: error.message });
   }
 };
 
@@ -59,12 +63,17 @@ const getAutorById = async (req, res) => {
  */
 const createAutor = async (req, res) => {
   try {
-    await validator.validateBodyAutor(req.body);
+    try {
+      //Validación del body
+      await validator.validateBodyAutor(req.body);
+    } catch (error) {
+      res.status(400).json({ error: JSON.parse(error.message) });
+    }
     const [result] = await insertAutores(req.body);
     const [autor] = await selectAutoresById(result.insertId);
     res.status(200).json(autor[0]);
   } catch (error) {
-    res.status(422).json({ fatal: JSON.parse(error.message) });
+    res.status(400).json({ fatal: JSON.parse(error.message) });
   }
 };
 
@@ -78,12 +87,17 @@ const updateAutor = async (req, res) => {
   try {
     const { idAutor } = req.params;
     const id = parseInt(idAutor);
-    await validator.validatIdAutor(id);
-    await validator.validatPartialAutor(req.body);
+    try {
+      //Validación del id y del cuerpo del body
+      await validator.validatIdAutor(id);
+      await validator.validatPartialAutor(req.body);
+    } catch (error) {
+      res.status(400).json({ error: JSON.parse(error.message) });
+    }
     const [result] = await updateAutorById(id, req.body);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ fatal: JSON.parse(error.message) });
+    res.status(400).json({ fatal: JSON.parse(error.message) });
   }
 };
 
@@ -97,11 +111,16 @@ const deleteAutor = async (req, res) => {
   try {
     const { idAutor } = req.params;
     const id = parseInt(idAutor);
-    await validator.validatIdAutor(id);
+    try {
+      //Validación del id
+      await validator.validatIdAutor(id);
+    } catch (error) {
+      res.status(400).json({ error: JSON.parse(error.message) });
+    }
     const [result] = await deleteAutorById(id);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ fatal: JSON.parse(error.message) });
+    res.status(400).json({ fatal: JSON.parse(error.message) });
   }
 };
 
