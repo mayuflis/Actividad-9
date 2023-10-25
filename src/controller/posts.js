@@ -94,13 +94,13 @@ const updatePost = async (req, res) => {
       // Valida el id de los posts utilizando el validador "validateIdPosts" definido en "validator"
       await validator.validatIdPosts(parseInt(postsId));
     } catch (error) {
-      res.status(422).json({ error: JSON.parse(error.message) });
+      res.status(400).json({ error: JSON.parse(error.message) });
     }
 
     const [result] = await updatePostsById(parseInt(postsId), req.body);
     res.status(200).json(result);
   } catch (error) {
-    res.status(422).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
