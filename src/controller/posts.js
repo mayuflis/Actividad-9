@@ -87,11 +87,12 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { postsId } = req.params;
+
     try {
       // Valida el body de los posts utilizando el validador "validateBodyPosts" definido en "validator"
       await validator.validatePartialBody(req.body);
       // Valida el id de los posts utilizando el validador "validateIdPosts" definido en "validator"
-      await validator.validatIdPosts(postsId);
+      await validator.validatIdPosts(parseInt(postsId));
     } catch (error) {
       res.status(422).json({ error: JSON.parse(error.message) });
     }
